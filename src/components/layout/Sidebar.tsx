@@ -25,7 +25,7 @@ export default function Sidebar({ alertCount = 0 }: { alertCount?: number }) {
   const groups = [...new Set(NAV.map(n => n.group))]
 
   return (
-    <aside className="w-56 bg-surface-2 border-r border-border-dim flex flex-col shrink-0 h-screen sticky top-0">
+    <aside className="hidden md:flex w-56 bg-surface-2 border-r border-border-dim flex-col shrink-0 h-screen sticky top-0">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-border-dim">
         <div className="flex items-center gap-3">

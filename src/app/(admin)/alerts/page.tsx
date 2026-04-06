@@ -39,7 +39,7 @@ export default async function AlertsPage() {
     <div className="space-y-5 max-w-7xl">
       <SectionLabel>Alert system monitor</SectionLabel>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 md:gap-3">
         <StatCard label="Sent today" value={data.todaySent} deltaPositive />
         <StatCard label="Failed today" value={data.todayFailed} deltaPositive={data.todayFailed === 0} />
         <StatCard label="Pending today" value={data.todayPending} />

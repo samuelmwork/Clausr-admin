@@ -41,11 +41,11 @@ export default function SqlRunner() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-mono">SQL Runner</CardTitle>
+        <CardTitle className="font-mono text-xs md:text-sm">SQL Runner</CardTitle>
         <div className="flex gap-2">
           {results && results.length > 0 && (
             <Button variant="ghost" size="xs" onClick={exportCsv}>
-              <Download size={11} className="mr-1" /> Export CSV
+              <Download size={11} className="mr-1" /> Export
             </Button>
           )}
           <Button size="xs" onClick={run} disabled={loading}>
@@ -53,14 +53,14 @@ export default function SqlRunner() {
           </Button>
         </div>
       </CardHeader>
-      <div className="p-4 space-y-3">
+      <div className="p-3 md:p-4 space-y-3">
         <textarea
           value={sql}
           onChange={e => setSql(e.target.value)}
-          className="w-full px-3 py-3 text-xs font-mono h-28 resize-none"
+          className="w-full px-3 py-2 md:py-3 text-xs font-mono h-24 md:h-28 resize-none"
           spellCheck={false}
           onKeyDown={e => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') run() }}
-          placeholder="Enter SQL query... (Ctrl+Enter to run)"
+          placeholder="Enter SQL query..."
         />
         {error && (
           <div className="bg-crimson-600/10 border border-crimson-600/30 rounded-lg px-3 py-2 text-xs font-mono text-crimson-400">

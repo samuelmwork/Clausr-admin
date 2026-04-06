@@ -72,7 +72,7 @@ export default async function AnalyticsPage() {
     <div className="space-y-5 max-w-7xl">
       <SectionLabel>30-day analytics</SectionLabel>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
         <StatCard label="Signups this week" value={data.totals.thisWeek} delta={`${signupGrowth > 0 ? '+' : ''}${signupGrowth}% vs last week`} deltaPositive={signupGrowth >= 0} />
         <StatCard label="Total orgs" value={data.totals.orgs.toLocaleString()} />
         <StatCard label="Total emails sent" value={data.totals.emailsSent.toLocaleString()} />

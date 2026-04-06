@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 
 export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('bg-surface-2 border border-border-dim rounded-xl border-glow', className)}>
+    <div className={cn('bg-surface-2 border border-border-dim rounded-xl border-glow overflow-hidden', className)}>
       {children}
     </div>
   )
@@ -34,23 +34,23 @@ export function StatCard({
   label: string; value: string | number; delta?: string; deltaPositive?: boolean; sub?: string
 }) {
   return (
-    <div className="bg-surface-2 border border-border-dim rounded-xl p-4 border-glow group hover:border-border-mid transition-colors">
-      <div className="text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-widest mb-2">{label}</div>
-      <div className="font-display font-bold text-2xl text-white mb-1 leading-none">{value}</div>
+    <div className="bg-surface-2 border border-border-dim rounded-xl p-3 md:p-4 border-glow group hover:border-border-mid transition-colors">
+      <div className="text-[9px] md:text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">{label}</div>
+      <div className="font-display font-bold text-xl md:text-2xl text-white mb-1 leading-none">{value}</div>
       {delta && (
-        <div className={`text-[10px] font-mono ${deltaPositive ? 'text-jade-400' : 'text-crimson-400'}`}>
+        <div className={`text-[9px] md:text-[10px] font-mono ${deltaPositive ? 'text-jade-400' : 'text-crimson-400'}`}>
           {deltaPositive ? '↑' : '↓'} {delta}
         </div>
       )}
-      {sub && <div className="text-[10px] font-mono text-slate-600 mt-1">{sub}</div>}
+      {sub && <div className="text-[9px] md:text-[10px] font-mono text-slate-600 mt-1">{sub}</div>}
     </div>
   )
 }
 
 export function Table({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('overflow-x-auto', className)}>
-      <table className="w-full table-auto">{children}</table>
+    <div className={cn('overflow-x-auto -mx-4 md:mx-0', className)}>
+      <table className="w-full table-auto min-w-[600px] md:min-w-0">{children}</table>
     </div>
   )
 }
@@ -60,7 +60,7 @@ export function Th({ children, className, colSpan, rowSpan }: { children: React.
     <th 
       colSpan={colSpan} 
       rowSpan={rowSpan}
-      className={cn("px-4 py-3 text-left text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest border-b border-border-dim bg-surface-3/50", className)}
+      className={cn("px-3 md:px-4 py-2.5 md:py-3 text-left text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest border-b border-border-dim bg-surface-3/50", className)}
     >
       {children}
     </th>
@@ -73,7 +73,7 @@ export function Td({ children, className, colSpan, rowSpan }: { children: React.
     <td 
       colSpan={colSpan} 
       rowSpan={rowSpan}
-      className={cn('px-4 py-3 text-sm border-b border-border-dim/50 text-slate-400', className)}
+      className={cn('px-3 md:px-4 py-3 text-sm border-b border-border-dim/50 text-slate-400', className)}
     >
       {children}
     </td>
@@ -141,7 +141,7 @@ export function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInp
 
 export function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[9px] font-mono font-bold text-slate-600 uppercase tracking-[.14em] mb-3">
+    <div className="text-[9px] md:text-[9px] font-mono font-bold text-slate-600 uppercase tracking-[.14em] mb-2 md:mb-3">
       {children}
     </div>
   )

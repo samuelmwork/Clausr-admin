@@ -62,20 +62,20 @@ export default function OrgDrawer({ org }: { org: any }) {
   const activeContracts = contracts.filter((c: any) => c.status !== 'cancelled').length
 
   return (
-    <Card className="relative">
+    <Card className="relative lg:sticky lg:top-6 lg:self-start">
       {toast && (
         <div className="absolute top-3 right-3 left-3 bg-jade-500/20 border border-jade-500/30 text-jade-400 text-xs font-mono rounded-lg px-3 py-2 z-10">
           {toast}
         </div>
       )}
       <CardHeader>
-        <div>
-          <CardTitle>{org.name}</CardTitle>
-          <div className="text-[10px] font-mono text-slate-600 mt-0.5">
+        <div className="min-w-0 flex-1">
+          <CardTitle className="truncate">{org.name}</CardTitle>
+          <div className="text-[10px] font-mono text-slate-600 mt-0.5 truncate">
             {users[0]?.profiles?.email ?? 'No admin email'}
           </div>
         </div>
-        <button onClick={close} className="text-slate-600 hover:text-slate-300 transition-colors">
+        <button onClick={close} className="text-slate-600 hover:text-slate-300 transition-colors shrink-0">
           <X size={14} />
         </button>
       </CardHeader>

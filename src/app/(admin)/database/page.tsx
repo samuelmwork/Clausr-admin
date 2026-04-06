@@ -41,12 +41,12 @@ export default async function DatabasePage({
       <SectionLabel>Live database viewer</SectionLabel>
 
       {/* Table picker */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 md:gap-2 flex-wrap">
         {TABLES.map(t => (
           <a
             key={t}
             href={`/database?table=${t}`}
-            className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-semibold border transition-all ${
+            className={`px-2 py-1 rounded-lg text-[9px] md:text-[10px] font-mono font-semibold border transition-all ${
               activeTable === t
                 ? 'bg-crimson-600/15 text-crimson-400 border-crimson-600/30'
                 : 'text-slate-500 border-border-dim hover:border-border-mid hover:text-slate-300'

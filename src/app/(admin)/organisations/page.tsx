@@ -118,7 +118,7 @@ export default async function OrgsPage({
         <OrgSearch defaultValue={searchParams.q} />
       </div>
 
-      <div className={`grid gap-5 ${selectedOrg ? 'lg:grid-cols-[1fr,380px]' : ''}`}>
+      <div className={`grid gap-4 md:gap-5 ${selectedOrg ? 'lg:grid-cols-[1fr,380px]' : ''}`}>
         <Card>
           <Table>
             <thead>

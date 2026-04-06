@@ -1,6 +1,6 @@
 'use client'
 import { usePathname } from 'next/navigation'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const PAGE_TITLES: Record<string, { title: string; sub: string }> = {
@@ -12,7 +12,7 @@ const PAGE_TITLES: Record<string, { title: string; sub: string }> = {
   '/system': { title: 'System', sub: 'Flags, infra health, announcements' },
 }
 
-export default function Topbar() {
+export default function Topbar({ onMenuToggle, isOpen }: { onMenuToggle?: () => void; isOpen?: boolean }) {
   const pathname = usePathname()
   const [time, setTime] = useState('')
   const [spinning, setSpinning] = useState(false)
@@ -32,22 +32,32 @@ export default function Topbar() {
   }
 
   return (
-    <header className="h-14 border-b border-border-dim bg-surface-2/60 backdrop-blur-sm flex items-center px-6 gap-4 shrink-0">
-      <div className="flex-1">
-        <div className="flex items-center gap-2.5">
-          <h1 className="font-display font-bold text-white text-base">{info.title}</h1>
-          {info.sub && <span className="text-slate-600 text-xs font-mono hidden md:block">/ {info.sub}</span>}
+    <header className="h-14 border-b border-border-dim bg-surface-2/60 backdrop-blur-sm flex items-center px-4 md:px-6 gap-3 md:gap-4 shrink-0">
+      <button
+        onClick={onMenuToggle}
+        className="md:hidden w-10 h-10 rounded-lg bg-surface-3 border border-border-dim flex items-center justify-center text-slate-400 hover:text-slate-200 hover:bg-surface-4 transition-all shrink-0"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? <X size={18} /> : <Menu size={18} />}
+      </button>
+
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <h1 className="font-display font-bold text-white text-sm md:text-base truncate">{info.title}</h1>
+          {info.sub && <span className="text-slate-600 text-[10px] md:text-xs font-mono hidden lg:block shrink-0">/ {info.sub}</span>}
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <span className="font-mono text-xs text-slate-600 hidden sm:block">{time} IST</span>
-        <div className="flex items-center gap-1.5 bg-jade-500/10 border border-jade-500/20 rounded-full px-2.5 py-1">
+
+      <div className="flex items-center gap-2 md:gap-3">
+        <span className="font-mono text-[10px] md:text-xs text-slate-600 hidden sm:block">{time} IST</span>
+        <div className="flex items-center gap-1.5 bg-jade-500/10 border border-jade-500/20 rounded-full px-2 py-1">
           <span className="w-1.5 h-1.5 rounded-full bg-jade-500 animate-pulse-slow" />
-          <span className="text-jade-400 text-[10px] font-mono font-semibold">LIVE</span>
+          <span className="text-jade-400 text-[9px] md:text-[10px] font-mono font-semibold">LIVE</span>
         </div>
         <button
           onClick={refresh}
           className="w-8 h-8 rounded-lg bg-surface-3 border border-border-dim flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-surface-4 transition-all"
+          aria-label="Refresh"
         >
           <RefreshCw size={13} className={spinning ? 'animate-spin' : ''} />
         </button>

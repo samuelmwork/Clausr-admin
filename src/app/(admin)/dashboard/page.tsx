@@ -87,7 +87,7 @@ export default async function DashboardPage() {
 
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-3">
         <StatCard label="Organisations" value={data.totals.orgs.toLocaleString()} delta={`${data.totals.signupsToday} today`} deltaPositive />
         <StatCard label="Total users" value={data.totals.users.toLocaleString()} />
         <StatCard label="Contracts" value={data.totals.contracts.toLocaleString()} />
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
       {/* Charts */}
       <DashboardCharts signupChart={data.signupChart} emailChart={data.emailChart} />
 
-      <div className="grid lg:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
         {/* Recent Signups */}
         <Card>
           <CardHeader>
