@@ -7,27 +7,31 @@ import OrgDrawer from './OrgDrawer'
 export const dynamic = 'force-dynamic'
 
 async function getOrgs(plan?: string, q?: string) {
+  try {
+    const db = createAdminClient()
+    let query = db
+      .from('organisations')
+      .select(`
+        id, name, plan, contract_limit, subscription_status, created_at,
+        members(id, user_id, role, profiles(email, full_name)),
+        contracts(id, status)
+      `)
+      .order('created_at', { ascending: false })
+      .limit(100)
 
-  const db = createAdminClient()
-  let query = db
-    .from('organisations')
-    .select(`
-      id, name, plan, contract_limit, subscription_status, created_at,
-      members(id, user_id, role, profiles(email, full_name)),
-      contracts(id, status)
-    `)
-    .order('created_at', { ascending: false })
-    .limit(100)
+    if (plan && plan !== 'all') query = query.eq('plan', plan)
+    if (q) query = query.ilike('name', `%${q}%`)
 
-  if (plan && plan !== 'all') query = query.eq('plan', plan)
-  if (q) query = query.ilike('name', `%${q}%`)
-
-  const { data, error } = await query
-  if (error) {
-    console.error('getOrgs Error:', error)
-    return []
+    const { data, error } = await query
+    if (error) {
+      console.error('getOrgs Error:', error)
+      return { error: error.message }
+    }
+    return { data: data ?? [] }
+  } catch (e) {
+    console.error('getOrgs Exception:', e)
+    return { error: String(e) }
   }
-  return data ?? []
 }
 
 
@@ -36,7 +40,10 @@ export default async function OrgsPage({
 }: {
   searchParams: { plan?: string; q?: string; org?: string }
 }) {
-  const orgs = await getOrgs(searchParams.plan, searchParams.q)
+  const result = await getOrgs(searchParams.plan, searchParams.q)
+  const orgs = 'error' in result ? [] : result.data
+  const fetchError = 'error' in result ? result.error : null
+
   const selectedOrg = searchParams.org
     ? orgs.find((o: any) => o.id === searchParams.org)
     : null
@@ -48,6 +55,11 @@ export default async function OrgsPage({
 
   return (
     <div className="space-y-5 max-w-7xl">
+      {fetchError && (
+        <div className="bg-crimson-600/10 border border-crimson-600/30 text-crimson-400 rounded-lg p-4 text-sm font-mono">
+          Error loading organisations: {fetchError}
+        </div>
+      )}
       <SectionLabel>{orgs.length} organisations</SectionLabel>
 
       {/* Plan filter pills */}
