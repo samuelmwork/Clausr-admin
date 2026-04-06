@@ -55,21 +55,31 @@ export function Table({ children, className }: { children: React.ReactNode; clas
   )
 }
 
-export function Th({ children }: { children: React.ReactNode }) {
+export function Th({ children, className, colSpan, rowSpan }: { children: React.ReactNode; className?: string; colSpan?: number; rowSpan?: number }) {
   return (
-    <th className="px-4 py-3 text-left text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest border-b border-border-dim bg-surface-3/50">
+    <th 
+      colSpan={colSpan} 
+      rowSpan={rowSpan}
+      className={cn("px-4 py-3 text-left text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest border-b border-border-dim bg-surface-3/50", className)}
+    >
       {children}
     </th>
   )
 }
 
-export function Td({ children, className }: { children: React.ReactNode; className?: string }) {
+
+export function Td({ children, className, colSpan, rowSpan }: { children: React.ReactNode; className?: string; colSpan?: number; rowSpan?: number }) {
   return (
-    <td className={cn('px-4 py-3 text-sm border-b border-border-dim/50 text-slate-400', className)}>
+    <td 
+      colSpan={colSpan} 
+      rowSpan={rowSpan}
+      className={cn('px-4 py-3 text-sm border-b border-border-dim/50 text-slate-400', className)}
+    >
       {children}
     </td>
   )
 }
+
 
 export function Tr({ children, onClick, className }: { children: React.ReactNode; onClick?: () => void; className?: string }) {
   return (
