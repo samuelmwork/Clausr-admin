@@ -4,7 +4,10 @@ import { formatRelative, planColor } from '@/lib/utils'
 import OrgSearch from './OrgSearch'
 import OrgDrawer from './OrgDrawer'
 
+export const dynamic = 'force-dynamic'
+
 async function getOrgs(plan?: string, q?: string) {
+
   const db = createAdminClient()
   let query = db
     .from('organisations')
