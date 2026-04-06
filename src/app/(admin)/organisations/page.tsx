@@ -13,7 +13,7 @@ async function getOrgs(plan?: string, q?: string) {
       .from('organisations')
       .select(`
         id, name, plan, contract_limit, subscription_status, created_at,
-        members(id, user_id, role, profiles(email, full_name)),
+        members(id, user_id, role),
         contracts(id, status)
       `)
       .order('created_at', { ascending: false })
@@ -27,7 +27,29 @@ async function getOrgs(plan?: string, q?: string) {
       console.error('getOrgs Error:', error)
       return { error: error.message }
     }
-    return { data: data ?? [] }
+
+    if (!data || data.length === 0) {
+      return { data: [] }
+    }
+
+    const orgIds = data.map(o => o.id)
+    const { data: membersWithProfiles } = await db
+      .from('members')
+      .select('id, user_id, role, organisation_id, profiles(email, full_name)')
+      .in('organisation_id', orgIds)
+
+    const membersByOrg = (membersWithProfiles ?? []).reduce((acc: any, m) => {
+      if (!acc[m.organisation_id]) acc[m.organisation_id] = []
+      acc[m.organisation_id].push(m)
+      return acc
+    }, {})
+
+    const enrichedOrgs = data.map(org => ({
+      ...org,
+      members: membersByOrg[org.id] ?? []
+    }))
+
+    return { data: enrichedOrgs }
   } catch (e) {
     console.error('getOrgs Exception:', e)
     return { error: String(e) }
