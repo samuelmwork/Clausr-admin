@@ -22,9 +22,14 @@ async function getOrgs(plan?: string, q?: string) {
   if (plan && plan !== 'all') query = query.eq('plan', plan)
   if (q) query = query.ilike('name', `%${q}%`)
 
-  const { data } = await query
+  const { data, error } = await query
+  if (error) {
+    console.error('getOrgs Error:', error)
+    return []
+  }
   return data ?? []
 }
+
 
 export default async function OrgsPage({
   searchParams
