@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui'
+import { Button, Badge } from '@/components/ui'
 import { RefreshCw, Zap } from 'lucide-react'
 
 export default function RetryButton({ alertId }: { alertId: string }) {
