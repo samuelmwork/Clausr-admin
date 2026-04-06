@@ -12,9 +12,7 @@ async function getOrgs(plan?: string, q?: string) {
     let query = db
       .from('organisations')
       .select(`
-        id, name, plan, contract_limit, subscription_status, created_at,
-        members(id, user_id, role),
-        contracts(id, status)
+        id, name, plan, contract_limit, subscription_status, created_at
       `)
       .order('created_at', { ascending: false })
       .limit(100)
@@ -33,10 +31,17 @@ async function getOrgs(plan?: string, q?: string) {
     }
 
     const orgIds = data.map(o => o.id)
-    const { data: membersWithProfiles } = await db
-      .from('members')
-      .select('id, user_id, role, organisation_id, profiles(email, full_name)')
-      .in('organisation_id', orgIds)
+
+    const [{ data: membersWithProfiles }, { data: contractsData }] = await Promise.all([
+      db
+        .from('members')
+        .select('id, user_id, role, organisation_id, profiles(email, full_name)')
+        .in('organisation_id', orgIds),
+      db
+        .from('contracts')
+        .select('id, status, organisation_id')
+        .in('organisation_id', orgIds)
+    ])
 
     const membersByOrg = (membersWithProfiles ?? []).reduce((acc: any, m) => {
       if (!acc[m.organisation_id]) acc[m.organisation_id] = []
@@ -44,9 +49,16 @@ async function getOrgs(plan?: string, q?: string) {
       return acc
     }, {})
 
+    const contractsByOrg = (contractsData ?? []).reduce((acc: any, c) => {
+      if (!acc[c.organisation_id]) acc[c.organisation_id] = []
+      acc[c.organisation_id].push(c)
+      return acc
+    }, {})
+
     const enrichedOrgs = data.map(org => ({
       ...org,
-      members: membersByOrg[org.id] ?? []
+      members: membersByOrg[org.id] ?? [],
+      contracts: contractsByOrg[org.id] ?? []
     }))
 
     return { data: enrichedOrgs }
