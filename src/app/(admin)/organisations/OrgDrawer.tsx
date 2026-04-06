@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardTitle, Button, Badge, SectionLabel } from '@/components/ui'
 import { planColor, formatRelative } from '@/lib/utils'
 import { X, Users, FileText, Calendar, Mail } from 'lucide-react'
@@ -14,6 +14,11 @@ export default function OrgDrawer({ org }: { org: any }) {
   const [selectedPlan, setSelectedPlan] = useState(org.plan)
   const [contractLimit, setContractLimit] = useState(org.contract_limit)
   const [toast, setToast] = useState('')
+
+  useEffect(() => {
+    setSelectedPlan(org.plan)
+    setContractLimit(org.contract_limit)
+  }, [org.plan, org.contract_limit])
 
   function close() {
     router.back()
